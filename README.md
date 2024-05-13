@@ -4,10 +4,15 @@ The tool counts completeness of each KEGG pathway for protein sequence.
 
 Please read **Theory** section with detailed explanation in the bottom of README. 
 
-Current version of pathways saved into **[pathways_data](pathways_data)** and graphs were [pre-built](graphs/README.md) and [saved](graphs/graphs.pkl) into pkl format. 
+Current version of pathways saved into **[pathways_data](pathways_data)** and graphs were [pre-built](graphs/README.md) and [saved](graphs/updates/pipeline-v5/graphs.pkl) into pkl format. 
 
-`Pipeline-v5 data has 394 modules.
-Updated data from 27/04/2023 has 475 modules.`
+`*Pipeline-v5 data has 394 modules.*`
+
+`Updated (from 07/03/2024) data in this repo has 481 modules.`
+
+Previous updates:
+- 27/04/2023 has 475 modules.
+
 If you need to update existing pathways data and graphs follow this [instruction](pathways_data/README.md).
 
 These files are also available on EBI MGnify FTP and can be downloaded using [download.sh](download.sh)
@@ -51,7 +56,7 @@ docker \
     --workdir=/results \
     --volume=`pwd`/results:/results:rw \
     --volume=${INPUT}:/files/input_table.tsv:ro \
-    quay.io/microbiome-informatics/kegg-completeness:v1 \
+    quay.io/microbiome-informatics/kegg-completeness:v1.1 \
     /tools/run_pathways.sh \
     -i /files/input_table.tsv
 ```
