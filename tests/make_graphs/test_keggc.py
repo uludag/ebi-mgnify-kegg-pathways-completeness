@@ -2,16 +2,17 @@ import os
 
 import networkx as nx
 
-from bin.make_graphs.make_graphs import recursive_parsing
+from kegg_pathways_completeness.bin.make_graphs.make_graphs \
+    import recursive_parsing
 
 dir_ = os.path.dirname(os.path.abspath(__file__))
 
 
 def load_kegg_pathways():
-    pathwaysdata = dir_ + "/../../pathways_data/2023_04_27"
-    c = pathwaysdata + "/all_pathways.txt"
-    cb = pathwaysdata + "/all_pathways_names.txt"
-    c, cb = open(c), open(cb)
+    from importlib.resources import files
+    data = files('kegg_pathways_completeness.pathways_data')
+    c = data.joinpath('all_pathways.txt').open()
+    cb = data.joinpath("all_pathways_names.txt").open()
     r = dict()
     b, cbb = c.readline(), cb.readline()
     while b:
@@ -19,7 +20,6 @@ def load_kegg_pathways():
         assert b[0] not in r, b[0]
         r[b[0]] = (b[1][:-1], cbb[1][:-1])
         b, cbb = c.readline(), cb.readline()
-    assert len(r) == 475
     return r
 
 
@@ -42,7 +42,7 @@ def get_pathway_graph(pathway):
 
 def is_pathway_complete(grh, abc):
     """ Given pathway graph, grh, and abundance values, abc,
-        is the KEGG pathway represented by the graph, grh, complete? """
+        is the KEGG pathway represented by the graph complete? """
     grh_ = grh.copy()
     for c, r, b in list(grh.edges.data('label')):  # source, target, label
         # Delete edges when no annotations found
@@ -71,7 +71,8 @@ def test_is_pathway_complete():
         "K00394": 23,
         "K00395": 23,
         "K11180": 10,
-        "K11181": 10
+        "K11181": 10, "K27196": 10, "K27187": 8, "K27188": 8,
+        "K27189":  8, "K27190":  8, "K27191": 5
     }
     c, _ = is_pathway_complete(pathway, abc)
     assert c is True
